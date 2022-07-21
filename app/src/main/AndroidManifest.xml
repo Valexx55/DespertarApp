@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="edu.val.despertarapp">
 
-    <!-- estoy permitiendo que esta app escuche el inicio del teléfono-->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+    <!-- estoy permitiendo que esta app escuche el inicio del teléfono -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,16 +17,19 @@
         android:theme="@style/Theme.DespertarApp"
         tools:targetApi="31">
         <receiver
+            android:name=".AlarmaReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
+        <receiver
             android:name=".InicioMovilReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
+
                 <!-- describo a los eventos que "esucha" este receptor -->
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
-                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"></action>
-
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
             </intent-filter>
-
         </receiver>
 
         <activity
