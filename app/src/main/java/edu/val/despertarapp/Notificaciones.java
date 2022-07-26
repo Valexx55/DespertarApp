@@ -102,4 +102,43 @@ public class Notificaciones {
         return notificationChannel;
 
     }
+
+    public static Notification crearNotificacionSegundoPlano (Context context)
+    {
+        Notification segundoplano = null;
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        //dentro de este método, vamos a lanzar la notificación
+        Log.d("ETIQUETA_LOG", "Lanzando noticación ...");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            Log.d("ETIQUETA_LOG", "Necesitamos crear un canal ...");
+            NotificationChannel notificationChannel = crearCanalNotificacion (context, ID_CANAL_NOTIFICACION, NOMBRE_CANAL);
+            notificationManager.createNotificationChannel(notificationChannel);
+            Log.d("ETIQUETA_LOG", "Canal Creado ...");
+        }
+
+
+
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, ID_CANAL_NOTIFICACION);
+        // NotificationCompat.Builder nb1 = new NotificationCompat.Builder(context);
+
+        nb.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        nb.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+        //el icono de la notificación debe ser blanco y de fondo transparente
+        nb.setSmallIcon(R.drawable.ic_baseline_bus_alert_24);
+        //Patrón "builder" - EL MÉTODO modifica una propeidad y me devuelve el propio objeto modificado
+        nb.setContentTitle("Comprobando si hay mensajes");//.setSubText("aviso diario").setContentText("Eres un campeón");
+        nb.setAutoCancel(true);//consigo que cuando se toque, desaparezca
+        nb.setDefaults(Notification.DEFAULT_ALL);
+        nb.setTimeoutAfter(5000);//la notificación se quita sola a los 5 segundos
+
+        Log.d("ETIQUETA_LOG", "Notificación construída...");
+
+        segundoplano = nb.build();
+        Log.d("ETIQUETA_LOG", "Notificación Lanzada...");
+        //notificationManager.notify(345, notification);
+
+        return  segundoplano;//esta notificación será visible mientras el servicio se ejecute en segundo plano. tipo "comprobando si hay mensajes de whatsapp"
+    }
 }
